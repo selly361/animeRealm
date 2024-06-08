@@ -1,18 +1,36 @@
 import { Anime } from '@/Types'
 import Image from 'next/image'
+import MotionDiv from '../MotionDiv'
 
 interface Prop {
 	anime: Anime
 	index: number
 }
 
-function AnimeCard({ anime }: Prop) {
+const variants = {
+	hidden: { opacity: 0 },
+	visible: { opacity: 1 }
+}
+
+function AnimeCard({ anime, index }: Prop) {
 	return (
-		<div className='max-w-sm rounded relative w-[258px]'>
-			<div className='relative w-[258px] h-[325px]'>
+		<MotionDiv
+			variants={variants}
+			initial='hidden'
+			animate='visible'
+			transition={{
+				delay: index * 0.25,
+				ease: 'easeInOut',
+				duration: 0.5
+			}}
+			className='max-w-sm rounded relative w-[230px]'
+		>
+			<div className='relative w-[230px] h-[325px]'>
 				<Image
-					src={anime.image.original}
+					src={`https://shikimori.one${anime.image.original}`}
 					alt={anime.name}
+					quality={100}
+					priority
 					fill
 					className='rounded-xl'
 				/>
@@ -53,7 +71,7 @@ function AnimeCard({ anime }: Prop) {
 					</div>
 				</div>
 			</div>
-		</div>
+		</MotionDiv>
 	)
 }
 
